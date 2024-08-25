@@ -36,6 +36,9 @@ gem "bootsnap", require: false
 #gem responders for respond_with method
 gem "responders"
 
+# For compiling and bundling JavaScript. Read more: https://github.com/shakacode/shakapacker
+gem "shakapacker", "~> 6.6.0"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

@@ -3,6 +3,6 @@ class Task < ApplicationRecord
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
    validates :title, 
   presence: true, 
-  length: {maximum: MAX_TITLE_LENGTH}
+  length: {maximum: MAX_TITLE_LENGTH},
   format: {with: VALID_TITLE_REGEX}
 end
