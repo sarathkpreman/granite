@@ -1,8 +1,8 @@
 #!/bin/sh
 
 run_install_commands() {
-  if [ "$SKIP_INSTALL_COMMANDS_AFTER_PULL" == "true" ]; then
-      cat <<EOT
+  if [ "$SKIP_INSTALL_COMMANDS_AFTER_PULL" = "true" ]; then
+    cat <<EOT
 --------------------------------------------------------------------------------------
 Environment variable SKIP_INSTALL_COMMANDS_AFTER_PULL is set to true.
 
@@ -12,13 +12,13 @@ EOT
   else
     changed_files=$(git diff-tree --name-only --no-commit-id ORIG_HEAD HEAD)
 
-    if grep -q "yarn.lock" <<< "$changed_files" && grep -q "Gemfile.lock" <<< "$changed_files"; then
+    if echo "$changed_files" | grep -q "yarn.lock" && echo "$changed_files" | grep -q "Gemfile.lock"; then
       echo "== Executing yarn install and bundle install =="
       (trap 'kill 0' SIGINT; yarn install & bundle install & wait)
-    elif grep -q "yarn.lock" <<< "$changed_files"; then
+    elif echo "$changed_files" | grep -q "yarn.lock"; then
       echo "== Executing yarn install =="
       yarn install
-    elif grep -q "Gemfile.lock" <<< "$changed_files"; then
+    elif echo "$changed_files" | grep -q "Gemfile.lock"; then
       echo "== Executing bundle install =="
       bundle install
     fi
