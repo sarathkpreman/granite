@@ -44,6 +44,8 @@ gem "shakapacker", "~> 6.6.0"
 # For react-rails gem
 gem "react-rails", "~> 2.7.1"
 
+gem "pry-byebug"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
