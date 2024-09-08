@@ -24,6 +24,13 @@ class TasksController < ApplicationController
     render_notice(t("successfully_updated"))
   end
 
+  before_action :load_task!, only: %i[show update destroy]
+
+  def destroy
+    @task.destroy!
+    render_json
+  end
+
   private
 
     def load_task!
