@@ -43,7 +43,6 @@ const handleErrorResponse = axiosErrorObject => {
   Toastr.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
-
   if (axiosErrorObject.response?.status === 423) {
     window.location.href = "/";
   }
@@ -57,4 +56,9 @@ const registerIntercepts = () => {
   );
 };
 
-export { setAuthHeaders, registerIntercepts };
+const resetAuthTokens = () => {
+  delete axios.defaults.headers["X-Auth-Email"];
+  delete axios.defaults.headers["X-Auth-Token"];
+};
+
+export { setAuthHeaders, registerIntercepts, resetAuthTokens };
