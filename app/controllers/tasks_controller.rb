@@ -15,7 +15,7 @@ class TasksController < ApplicationController
   before_action :load_task!, only: %i[show update]
 
   def show
-    render_json({ task: @task, assigned_user: @task.assigned_user })
+    render
   end
 
   def update
