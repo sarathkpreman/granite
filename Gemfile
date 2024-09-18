@@ -46,6 +46,7 @@ gem "react-rails", "~> 2.7.1"
 
 gem "pry-byebug"
 
+gem "bcrypt", "~> 3.1.13"
 # Use Sass to process CSS
 # gem "sassc-rails"
 

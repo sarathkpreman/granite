@@ -3,12 +3,16 @@
 class Task < ApplicationRecord
   MAX_TITLE_LENGTH = 125
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
+  belongs_to :task_owner, foreign_key: "task_owner_id", class_name: "User"
+  belongs_to :assigned_user, foreign_key: "assigned_user_id", class_name: "User"
   validates :title,
     presence: true,
     length: { maximum: MAX_TITLE_LENGTH },
     format: { with: VALID_TITLE_REGEX }
   validates :slug, uniqueness: true
   validate :slug_not_changed
+  # before_validation :set_title
+  after_validation :set_title
 
   before_create :set_slug
 
@@ -35,5 +39,9 @@ class Task < ApplicationRecord
       if slug_changed? && self.persisted?
         errors.add(:slug, I18n.t("task.slug.immutable"))
       end
+    end
+
+    def set_title
+      self.title = "Pay electricity bill"
     end
 end

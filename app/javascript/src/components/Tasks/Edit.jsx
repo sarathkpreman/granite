@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from "react";
 
+import { useParams } from "react-router-dom";
+
 import tasksApi from "apis/tasks";
 import usersApi from "apis/users";
 import { Container, PageLoader, PageTitle } from "components/commons";
 
 import Form from "./Form";
 
-const Create = ({ history }) => {
+const Edit = ({ history }) => {
   const [title, setTitle] = useState("");
   const [userId, setUserId] = useState("");
+  const [assignedUser, setAssignedUser] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
+  const { slug } = useParams();
 
   const handleSubmit = async event => {
     event.preventDefault();
-    setLoading(true);
     try {
-      await tasksApi.create({ title, assigned_user_id: userId });
+      await tasksApi.update({
+        slug,
+        payload: { title, assigned_user_id: userId },
+      });
       setLoading(false);
       history.push("/dashboard");
     } catch (error) {
-      logger.error(error);
       setLoading(false);
+      logger.error(error);
     }
   };
 
@@ -32,28 +38,49 @@ const Create = ({ history }) => {
         data: { users },
       } = await usersApi.fetch();
       setUsers(users);
-      setUserId(users[0].id);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setPageLoading(false);
     }
   };
 
+  const fetchTaskDetails = async () => {
+    try {
+      const {
+        data: {
+          task: { title, assigned_user },
+        },
+      } = await tasksApi.show(slug);
+      setTitle(title);
+      setAssignedUser(assigned_user);
+      setUserId(assigned_user.id);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const loadData = async () => {
+    await Promise.all([fetchTaskDetails(), fetchUserDetails()]);
+    setPageLoading(false);
+  };
+
   useEffect(() => {
-    fetchUserDetails();
+    loadData();
   }, []);
 
   if (pageLoading) {
-    return <PageLoader />;
+    return (
+      <div className="h-screen w-screen">
+        <PageLoader />
+      </div>
+    );
   }
 
   return (
     <Container>
       <div className="flex flex-col gap-y-8">
-        <PageTitle title="Add new task" />
+        <PageTitle title="Edit task" />
         <Form
-          assignedUser={users[0]}
+          assignedUser={assignedUser}
           handleSubmit={handleSubmit}
           loading={loading}
           setTitle={setTitle}
@@ -66,4 +93,4 @@ const Create = ({ history }) => {
   );
 };
 
-export default Create;
+export default Edit;

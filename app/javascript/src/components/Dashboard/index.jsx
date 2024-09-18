@@ -6,7 +6,7 @@ import tasksApi from "apis/tasks";
 import { PageLoader, PageTitle, Container } from "components/commons";
 import Table from "components/Tasks/Table";
 
-const Dashboard = () => {
+const Dashboard = ({ history }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,11 +16,24 @@ const Dashboard = () => {
         data: { tasks },
       } = await tasksApi.fetch();
       setTasks(tasks);
-      setLoading(false);
     } catch (error) {
       logger.error(error);
+    } finally {
       setLoading(false);
     }
+  };
+
+  const destroyTask = async slug => {
+    try {
+      await tasksApi.destroy(slug);
+      await fetchTasks();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const showTask = slug => {
+    history.push(`/tasks/${slug}/show`);
   };
 
   useEffect(() => {
@@ -49,7 +62,7 @@ const Dashboard = () => {
     <Container>
       <div className="flex flex-col gap-y-8">
         <PageTitle title="Todo list" />
-        <Table data={tasks} />
+        <Table data={tasks} destroyTask={destroyTask} showTask={showTask} />
       </div>
     </Container>
   );

@@ -4,14 +4,14 @@
 // that code so it'll be compiled.
 
 import "../stylesheets/application.scss";
-
 const componentRequireContext = require.context("src", true);
 
-const { setAuthHeaders } = require("apis/axios");
+const { registerIntercepts, setAuthHeaders } = require("apis/axios");
 const { initializeLogger } = require("common/logger");
 
+registerIntercepts();
 initializeLogger();
 setAuthHeaders();
 
 const ReactRailsUJS = require("react_ujs");
-ReactRailsUJS.useContext(componentRequireContext)
+ReactRailsUJS.useContext(componentRequireContext);
