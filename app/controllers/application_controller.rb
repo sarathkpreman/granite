@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   rescue_from StandardError, with: :handle_api_exception
+  rescue_from Pundit::NotAuthorizedError, with: :handle_authorization_error
+  include Pundit::Authorization
+
+  def handle_authorization_error
+    render_error(t("authorization.denied"), :forbidden)
+  end
 
   def handle_api_exception(exception)
     case exception
