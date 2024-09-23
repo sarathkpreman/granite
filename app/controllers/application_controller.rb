@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   rescue_from StandardError, with: :handle_api_exception
+
   rescue_from Pundit::NotAuthorizedError, with: :handle_authorization_error
+
   include Pundit::Authorization
 
   def handle_authorization_error
@@ -42,9 +44,9 @@ class ApplicationController < ActionController::Base
     handle_generic_exception(exception, :unprocessable_entity)
   end
 
-  def handle_authorization_error
-    render_error("Access denied. You are not authorized to perform this action.", :forbidden)
-  end
+  # def handle_authorization_error
+  # render_error("Access denied. You are not authorized to perform this action.", :forbidden)
+  # end
 
   def handle_generic_exception(exception, status = :internal_server_error)
     log_exception(exception) unless Rails.env.test?
