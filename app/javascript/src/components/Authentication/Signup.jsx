@@ -30,8 +30,12 @@ const Signup = ({ history }) => {
 
   return (
     <SignupForm
+      email={email}
       handleSubmit={handleSubmit}
       loading={loading}
+      name={name}
+      password={password}
+      passwordConfirmation={passwordConfirmation}
       setEmail={setEmail}
       setName={setName}
       setPassword={setPassword}

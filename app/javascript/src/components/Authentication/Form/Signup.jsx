@@ -9,8 +9,12 @@ const Signup = ({
   setName,
   setEmail,
   setPassword,
-  loading,
   setPasswordConfirmation,
+  name,
+  email,
+  password,
+  passwordConfirmation,
+  loading,
 }) => (
   <div
     className="flex min-h-screen items-center justify-center bg-gray-50
@@ -24,12 +28,7 @@ const Signup = ({
         Sign Up
       </h2>
       <div className="text-center">
-        <Link
-          to="/"
-          className="mt-2 text-center text-sm
-            font-medium transition duration-150 ease-in-out
-            focus:underline focus:outline-none"
-        >
+        <Link className="font-medium focus:underline focus:outline-none" to="/">
           Or Login Now
         </Link>
       </div>
@@ -37,24 +36,28 @@ const Signup = ({
         <Input
           label="Name"
           placeholder="Oliver"
+          value={name}
           onChange={e => setName(e.target.value)}
         />
         <Input
           label="Email"
           placeholder="oliver@example.com"
           type="email"
+          value={email}
           onChange={e => setEmail(e.target.value)}
         />
         <Input
           label="Password"
           placeholder="********"
           type="password"
+          value={password}
           onChange={e => setPassword(e.target.value)}
         />
         <Input
           label="Password Confirmation"
           placeholder="********"
           type="password"
+          value={passwordConfirmation}
           onChange={e => setPasswordConfirmation(e.target.value)}
         />
         <Button buttonText="Register" loading={loading} type="submit" />
