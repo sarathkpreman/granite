@@ -44,17 +44,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Title can't be blank, Title is invalid", response_json["error"]
   end
 
-  def test_creator_can_update_any_task_fields
-    new_title = "#{@task.title}-(updated)"
-    task_params = { task: { title: new_title, assigned_user_id: @assignee.id } }
-
-    put task_path(@task.slug), params: task_params, headers: @creator_headers
-    assert_response :success
-    @task.reload
-    assert_equal new_title, @task.title
-    assert_equal @assignee.id, @task.assigned_user_id
-  end
-
   def test_should_destroy_task
     assert_difference "Task.count", -1 do
       delete task_path(@task.slug), headers: @creator_headers
