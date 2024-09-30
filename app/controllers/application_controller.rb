@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from StandardError, with: :handle_api_exception
 
+  rescue_from Pundit::NotAuthorizedError, with: :handle_authorization_error
+
+  include Pundit::Authorization
+
+  def handle_authorization_error
+    render_error(t("authorization.denied"), :forbidden)
+  end
+
   def handle_api_exception(exception)
     case exception
     when -> (e) { e.message.include?("PG::") || e.message.include?("SQLite3::") }
@@ -36,9 +44,9 @@ class ApplicationController < ActionController::Base
     handle_generic_exception(exception, :unprocessable_entity)
   end
 
-  def handle_authorization_error
-    render_error("Access denied. You are not authorized to perform this action.", :forbidden)
-  end
+  # def handle_authorization_error
+  # render_error("Access denied. You are not authorized to perform this action.", :forbidden)
+  # end
 
   def handle_generic_exception(exception, status = :internal_server_error)
     log_exception(exception) unless Rails.env.test?

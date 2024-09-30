@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 
 import { Button, Input } from "components/commons";
 
-const Login = ({ handleSubmit, setEmail, setPassword, loading }) => (
+const Login = ({
+  handleSubmit,
+  setEmail,
+  setPassword,
+  email,
+  password,
+  loading,
+}) => (
   <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
     <div className="w-full max-w-md">
       <h2 className="mt-6 text-center text-3xl font-extrabold leading-9 text-gray-700">
@@ -23,12 +30,14 @@ const Login = ({ handleSubmit, setEmail, setPassword, loading }) => (
           label="Email"
           placeholder="oliver@example.com"
           type="email"
+          value={email}
           onChange={e => setEmail(e.target.value)}
         />
         <Input
           label="Password"
           placeholder="********"
           type="password"
+          value={password}
           onChange={e => setPassword(e.target.value)}
         />
         <Button buttonText="Sign In" loading={loading} type="submit" />

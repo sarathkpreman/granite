@@ -1,43 +1,56 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+  before_action :load_task!, only: %i[show update destroy]
+  before_action :ensure_authorized_update_to_restricted_attrs, only: :update
+
   def index
-    tasks = Task.all.as_json(include: { assigned_user: { only: %i[name id] } })
-    render_json({ tasks: })
+    tasks = policy_scope(Task)
+    @pending_tasks = tasks.includes(:assigned_user).of_status(:pending)
+    @completed_tasks = tasks.of_status(:completed)
   end
 
   def create
     task = current_user.created_tasks.new(task_params)
+    authorize task
     task.save!
     render_notice(t("successfully_created", entity: "Task"))
   end
 
-  before_action :load_task!, only: %i[show update]
-
   def show
-    render
+    authorize @task
+    @comments = @task.comments.order("created_at DESC")
   end
 
   def update
+    authorize @task
     @task.update!(task_params)
-    render_notice("Task was successfully updated!")
-    render_notice(t("successfully_updated"))
+    render_notice(t("successfully_updated", entity: "Task")) unless params.key?(:quiet)
   end
 
-  before_action :load_task!, only: %i[show update destroy]
-
   def destroy
+    authorize @task
     @task.destroy!
-    render_json
+    render_notice(t("successfully_deleted", entity: "Task")) unless params.key?(:quiet)
   end
 
   private
 
-    def load_task!
-      @task = Task.find_by!(slug: params[:slug])
+    def task_params
+      params.require(:task).permit(:title, :assigned_user_id, :progress, :status)
     end
 
-    def task_params
-      params.require(:task).permit(:title, :assigned_user_id)
+    def ensure_authorized_update_to_restricted_attrs
+      is_editing_restricted_params = Task::RESTRICTED_ATTRIBUTES.any? { |a| task_params.key?(a) }
+      is_not_owner = @task.task_owner_id != @current_user.id
+      if is_editing_restricted_params && is_not_owner
+        handle_authorization_error
+      end
+    end
+
+    def load_task!
+      @task = Task.find_by!(slug: params[:slug])
     end
 end

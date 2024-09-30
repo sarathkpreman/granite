@@ -31,8 +31,10 @@ const Login = () => {
 
   return (
     <LoginForm
+      email={email}
       handleSubmit={handleSubmit}
       loading={loading}
+      password={password}
       setEmail={setEmail}
       setPassword={setPassword}
     />

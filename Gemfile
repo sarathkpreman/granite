@@ -50,8 +50,12 @@ gem "bcrypt", "~> 3.1.13"
 # Use Sass to process CSS
 # gem "sassc-rails"
 
+gem "simplecov", require: false, group: :test
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+
+gem "pundit"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -59,6 +63,10 @@ group :development, :test do
   # For code formatting and linting
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
+  # Rails integration for factory_bot, a replacement for fixtures
+  gem "factory_bot_rails"
+  # For auto-generating demo data
+  gem "faker"
 end
 
 group :development do

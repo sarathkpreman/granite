@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_15_131509) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_24_100620) do
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "task_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_comments_on_task_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.text "title", null: false
     t.datetime "created_at", null: false
@@ -18,6 +28,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_131509) do
     t.string "slug", null: false
     t.integer "assigned_user_id"
     t.integer "task_owner_id"
+    t.string "progress", default: "pending", null: false
+    t.string "status", default: "unstarred", null: false
+    t.integer "comments_count"
     t.index ["slug"], name: "index_tasks_on_slug", unique: true
   end
 
@@ -31,6 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_131509) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "comments", "tasks"
+  add_foreign_key "comments", "users"
   add_foreign_key "tasks", "users", column: "assigned_user_id"
   add_foreign_key "tasks", "users", column: "task_owner_id", on_delete: :cascade
 end
