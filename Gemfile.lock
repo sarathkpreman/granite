@@ -79,6 +79,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
@@ -97,6 +99,8 @@ GEM
       msgpack (~> 1.2)
     builder (3.3.0)
     byebug (11.1.3)
+    childprocess (5.1.0)
+      logger (~> 1.5)
     coderay (1.1.3)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
@@ -107,6 +111,8 @@ GEM
       reline (>= 0.3.8)
     docile (1.4.1)
     erubi (1.13.0)
+    et-orbi (1.2.11)
+      tzinfo
     execjs (2.9.1)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
@@ -115,6 +121,9 @@ GEM
       railties (>= 5.0.0)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.5)
@@ -128,6 +137,12 @@ GEM
       activesupport (>= 5.0.0)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
+    launchy (3.0.1)
+      addressable (~> 2.8)
+      childprocess (~> 5.0)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
+    logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -175,10 +190,12 @@ GEM
       pry (>= 0.13, < 0.15)
     psych (5.1.2)
       stringio
+    public_suffix (6.0.1)
     puma (5.6.8)
       nio4r (~> 2.0)
     pundit (2.4.0)
       activesupport (>= 3.0.0)
+    raabro (1.4.0)
     racc (1.8.1)
     rack (2.2.9)
     rack-proxy (0.7.7)
@@ -261,6 +278,10 @@ GEM
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
+    sidekiq-cron (1.12.0)
+      fugit (~> 1.8)
+      globalid (>= 1.0.1)
+      sidekiq (>= 6)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -315,6 +336,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   jbuilder
+  letter_opener
   pry-byebug
   puma (~> 5.0)
   pundit
@@ -326,6 +348,7 @@ DEPENDENCIES
   rubocop-rails
   shakapacker (~> 6.6.0)
   sidekiq (< 7)
+  sidekiq-cron
   simplecov
   sprockets-rails
   sqlite3 (~> 1.4)
