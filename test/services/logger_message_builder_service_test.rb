@@ -17,6 +17,7 @@ class LoggerMessageBuilderServiceTest < ActiveSupport::TestCase
     message = service.process!
 
     expected_message = "A task titled '#{@task_title_1}' was created and self-assigned to #{@task_owner.name}."
+    puts "Actual Message: #{message}"
     assert_equal expected_message, message
   end
 
@@ -25,6 +26,7 @@ class LoggerMessageBuilderServiceTest < ActiveSupport::TestCase
     message = service.process!
 
     expected_message = "A task titled '#{@task_title_2}' was created by #{@task_owner.name} and is assigned to #{@assigned_user.name}."
+    puts "Actual Message: #{message}"
     assert_equal expected_message, message
   end
 end
