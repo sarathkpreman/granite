@@ -17,8 +17,6 @@ class Task < ApplicationRecord
   validate :slug_not_changed
   after_create :log_task_details
 
-  after_validation :set_title
-
   before_create :set_slug
 
   def self.of_status(progress)
@@ -56,9 +54,5 @@ class Task < ApplicationRecord
       if slug_changed? && self.persisted?
         errors.add(:slug, I18n.t("task.slug.immutable"))
       end
-    end
-
-    def set_title
-      self.title = "Pay electricity bill"
     end
 end
