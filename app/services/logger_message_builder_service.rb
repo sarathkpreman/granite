@@ -26,10 +26,16 @@ class LoggerMessageBuilderService
     end
 
     def task_owner
-      task_owner = User.find(task.task_owner_id)
+      User.find_by(id: task.task_owner_id) || NullUser.new
     end
 
     def assigned_user
-      assigned_user = User.find(task.assigned_user_id)
+      User.find_by(id: task.assigned_user_id) || NullUser.new
     end
+end
+
+class NullUser
+  def name
+    "Unknown User"
+  end
 end
