@@ -7,6 +7,8 @@ class CommentTest < ActiveSupport::TestCase
     @comment = build(:comment)
   end
 
+  # embed new test cases here...
+
   def test_comment_should_be_invalid_without_content
     @comment.content = ""
     assert @comment.invalid?
