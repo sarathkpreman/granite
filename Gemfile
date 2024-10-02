@@ -12,7 +12,7 @@ gem "rails", "~> 7.0.5"
 gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
+# gem "sqlite3", "~> 1.4"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -62,6 +62,10 @@ gem "sidekiq", "<7"
 gem "sidekiq-cron"
 
 gem "letter_opener", group: :development
+
+gem "sqlite3", "~> 1.4", group: [:development, :test]
+
+gem "pg", group: [:production]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
