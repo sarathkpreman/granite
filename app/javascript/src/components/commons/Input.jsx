@@ -10,6 +10,8 @@ const Input = ({
   onChange,
   placeholder,
   disabled = false,
+  min,
+  max,
   required = true,
   className = "",
 }) => (
@@ -22,6 +24,8 @@ const Input = ({
     <div className="mt-1 rounded-md shadow-sm">
       <input
         disabled={disabled}
+        max={max}
+        min={min}
         placeholder={placeholder}
         required={required}
         type={type}
@@ -39,12 +43,14 @@ const Input = ({
 Input.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.string, // Updated PropType
+  value: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   required: PropTypes.bool,
-  disabled: PropTypes.bool, // Added PropType
-  className: PropTypes.string, // Added PropType
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
 };
 
 export default Input;
